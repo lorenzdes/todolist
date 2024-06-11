@@ -2,15 +2,17 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
 export const useTodoStore = defineStore('todo', () => {
-  const ToDOs = ref([{ ToDo: 'Do tutorial', done: false }, { ToDo: 'Do script', done: false }]);
+  const ToDOs = ref([{ ToDo: 'Do tutorial', done: false, priority: 'Low' }, { ToDo: 'Do script', done: false, priority: 'High' }]);
   const completedTasks = ref([]);
   const deletedTasks = ref([]);
   const isSnackbarOpen = ref(false);
   const snackbarMessage = ref('');
 
   const addToDo = (newToDo) => {
-    if (newToDo.trim() !== '') {
-      ToDOs.value.push({ ToDo: newToDo, done: false });
+    const todoText = newToDo.ToDo;
+    const todoPriority = newToDo.priority;
+    if (todoText.trim() !== '') {
+      ToDOs.value.push({ ToDo: todoText, done: false, priority: todoPriority });
       isSnackbarOpen.value = true;
       snackbarMessage.value = 'The task is added';
     }
@@ -21,6 +23,13 @@ export const useTodoStore = defineStore('todo', () => {
     deletedTasks.value.push(deletedTask);
     isSnackbarOpen.value = true;
     snackbarMessage.value = 'The task is deleted';
+  };
+
+  const deleteCompletedTask = (index) => {
+    const deletedTask = completedTasks.value.splice(index, 1)[0];
+    deletedTasks.value.push(deletedTask);
+    isSnackbarOpen.value = true;
+    snackbarMessage.value = 'The completed task is deleted';
   };
 
   const doneTask = (index) => {
@@ -40,7 +49,6 @@ export const useTodoStore = defineStore('todo', () => {
   };
 
   const emptyTrash = () => {
-    console.log('emptyTrash called');
     deletedTasks.value = [];
     isSnackbarOpen.value = true;
     snackbarMessage.value = 'Deleted tasks cleared';
@@ -51,10 +59,11 @@ export const useTodoStore = defineStore('todo', () => {
 
   return {
     ToDOs,
+    addToDo,
     completedTasks,
     deletedTasks,
-    addToDo,
     deleteToDo,
+    deleteCompletedTask,
     doneTask,
     undoneTask,
     emptyTrash,

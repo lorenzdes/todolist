@@ -13,17 +13,9 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
 import { useTodoStore } from '../stores/store.js';
-const isSnackbarOpen = ref(false);
-const snackbarMessage = ref('');
-const emptyTrash = () => {
-    console.log('emptyTrash called');
-    deletedTasks.value = [];
-    isSnackbarOpen.value = true;
-    snackbarMessage.value = 'Deleted tasks cleared';
-  };
 
 const todoStore = useTodoStore();
-const { deletedTasks} = todoStore;
+
+const { deletedTasks, emptyTrash } = todoStore;
 </script>
