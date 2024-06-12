@@ -10,7 +10,7 @@
         <v-btn @click="deleteCompletedTask(index)">Delete Task</v-btn>
       </v-list-item>
     </v-list>
-    <v-btn @click="emptyTrash">Clear completed Tasks</v-btn>
+    <v-btn @click="emptyTrash">Clear Completed Tasks</v-btn>
     <v-snackbar v-model="isSnackbarOpen" multi-line>
       {{ snackbarMessage }}
       <template v-slot:actions>
@@ -21,13 +21,13 @@
 </template>
 
 <script setup>
-import { useTodoStore } from '../stores/store.js';
+import { useTodoStore } from '../stores/todoStore';
 
 const todoStore = useTodoStore();
 
 const {
   completedTasks,
-  undoneTask, // Ensure undoneTask is imported
+  undoneTask,
   deleteCompletedTask,
   countDone,
   emptyTrash,

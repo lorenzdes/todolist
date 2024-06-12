@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-title class="text-h6 text-md-h5 text-lg-h4">
-      Number of deleted TODO is: {{ deletedTasks.length }}
+      Number of deleted TODOs: {{ deletedTasks.length }}
     </v-card-title>
     <v-list lines="one">
       <v-list-item v-for="(item, index) in deletedTasks" :key="index">
@@ -13,9 +13,12 @@
 </template>
 
 <script setup>
-import { useTodoStore } from '../stores/store.js';
+import { useTodoStore } from '../stores/todoStore';
 
 const todoStore = useTodoStore();
 
 const { deletedTasks, emptyTrash } = todoStore;
 </script>
+
+
+

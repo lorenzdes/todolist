@@ -7,7 +7,7 @@
       <v-list-item v-for="(item, index) in ToDOs" :key="index">
         <v-row justify="space-between" align="center" class="w-100">
           <v-col cols="auto">
-            ToDo - {{ index + 1 }} - {{ item.ToDo }} - 
+            ToDo - {{ index + 1 }} - {{ item.ToDo }} -
           </v-col>
           <v-col cols="auto">
             <v-select
@@ -50,7 +50,7 @@
     <v-snackbar v-model="isSnackbarOpen" multi-line>
       {{ snackbarMessage }}
       <template v-slot:actions>
-        <v-btn color="red" variant="text" @click="isSnackbarOpen = false">Close</v-btn>
+        <v-btn color="red" variant="text" @click="closeSnackbar">Close</v-btn>
       </template>
     </v-snackbar>
     <v-row justify="center" align="center">
@@ -85,9 +85,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useTodoStore } from '../stores/store.js';
-import SearchInput from 'C:/Users/User/Desktop/vue_test/todolist/src/components/SearchInput.vue';
-import WeatherCard from 'C:/Users/User/Desktop/vue_test/todolist/src/components/WeatherCard.vue';
+import { useTodoStore } from '../stores/todoStore';
+import { useSnackbarStore } from '../stores/snackbarStore';
+import SearchInput from '../components/SearchInput.vue';
+import WeatherCard from '../components/WeatherCard.vue';
 
 const places = ref([]);
 
@@ -102,9 +103,11 @@ const deletePlace = (name) => {
 };
 
 const todoStore = useTodoStore();
+const snackbarStore = useSnackbarStore();
 const newToDo = ref('');
 const priority = ref('Low');
-const { ToDOs, addToDo, deleteToDo, doneTask, countUndone, isSnackbarOpen, snackbarMessage } = todoStore;
+const { ToDOs, addToDo, deleteToDo, doneTask, countUndone } = todoStore;
+const { isSnackbarOpen, snackbarMessage, closeSnackbar } = snackbarStore;
 
 const handleAddToDo = () => {
   if (newToDo.value.trim() !== '') {
@@ -112,8 +115,7 @@ const handleAddToDo = () => {
     newToDo.value = '';
     priority.value = 'Low';
   } else {
-    isSnackbarOpen.value = true;
-    snackbarMessage.value = 'Task cannot be empty';
+    snackbarStore.showSnackbar('Task cannot be empty');
   }
 };
 
