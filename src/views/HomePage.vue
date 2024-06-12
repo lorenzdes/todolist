@@ -55,9 +55,6 @@
     </v-snackbar>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
-        <div class="text-center mb-6">
-          <SearchInput @place-data="addPlace" />
-        </div>
         <v-card class="mt-5">
           <v-card-title>
             Current Time in Italy: {{ currentTime }}
