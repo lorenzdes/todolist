@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-banner v-if="showBanner" color="warning">
+      Warning: You have more than 10 TODOs!
+    </v-banner>
     <v-card-title class="text-h6 text-md-h5 text-lg-h4">
       Number of undone TODOs: {{ countUndone }}
     </v-card-title>
@@ -83,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useTodoStore } from '../stores/todoStore';
 import { useSnackbarStore } from '../stores/snackbarStore';
@@ -118,6 +121,16 @@ const handleAddToDo = () => {
     snackbarStore.showSnackbar('Task cannot be empty');
   }
 };
+
+const showBanner = ref(false);
+
+watch(ToDOs, (newValue) => {
+  if (newValue.length > 10) {
+    showBanner.value = true;
+  } else {
+    showBanner.value = false;
+  }
+});
 
 const weatherData = ref({ temperature: '', windSpeed: '' });
 const currentTime = ref('');
